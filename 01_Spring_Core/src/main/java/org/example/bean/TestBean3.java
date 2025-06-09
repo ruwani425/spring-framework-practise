@@ -11,14 +11,9 @@ import org.springframework.stereotype.Component;
  * @author Ruwani Ranthika
  * @since 2025-06-09
  */
-
 @Component
-public class SpringBean {
-    SpringBean() {
-        System.out.println("SpringBean object created");
-    }
-
-    public void testBean() {
-        System.out.println("testBean method called");
+public class TestBean3 {
+    TestBean3() {
+        System.out.println("TestBean3 Constructor");
     }
 }
