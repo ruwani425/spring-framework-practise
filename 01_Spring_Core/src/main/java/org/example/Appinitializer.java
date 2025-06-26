@@ -5,18 +5,10 @@ import org.example.bean.SpringBean;
 import org.example.config.AppConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-/**
- * <b>Header</b>
- * <p>
- * Description
- * </p>
- *
- * @author Ruwani Ranthika
- * @since 2025-06-09
- */
 public class Appinitializer {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+        //AppConfig class eka context ekata daganna
         context.register(AppConfig.class);
         context.refresh();
 
@@ -30,11 +22,15 @@ public class Appinitializer {
 //        System.out.println(bean1);
 //        TestBean2 bean2 = context.getBean(TestBean2.class);
 //        System.out.println(bean2);
-//        //close wenakam beans tika context eke tiyagena inne
+
+        //meya balan inne application eka stop wenakam
+        //antimata context.close walin close karala dnawa context eka
+        //gc awilla collect karaganne neti nisa tmai mehema karanne
 //        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 //            System.out.println("JVM is about to be shut down");
 //            context.close();
 //        }));
+
 //        TestBean3 bean3 = context.getBean(TestBean3.class);
         //mehema netnm uda comment karapu eke wge karanna puluwan
 
@@ -45,6 +41,7 @@ public class Appinitializer {
 //        TestBean2 testBean2 = (TestBean2) context.getBean("testBean2", TestBean2.class);
 //        System.out.println(testBean2);
 
+        //object type eken return wena nisa cast kara
         MyConnection myConnection = (MyConnection) context.getBean("myConnection");
         System.out.println(myConnection);
         context.registerShutdownHook();
