@@ -49,11 +49,11 @@ public class Boy {
 //        boy.chat();
 //    }
 
-
-
     // HOW TO DO DEPENDANCY INJECTION IN SPRING
 
+    //context eke tina bean object eka daganna kiyala kiyanne
     @Autowired
+    //dennek agreement eken implement wela tibba nisa methanata enna ona kage reference ekada kiyala kiyanna use kara
     @Qualifier("girl2")
     Agreement girl;
 

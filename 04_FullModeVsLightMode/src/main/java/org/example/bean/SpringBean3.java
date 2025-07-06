@@ -3,10 +3,13 @@ package org.example.bean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+//me bean ekak atule bean ekak hadena eka danmama light mode wenawa.
+//config eke witrk bean annotation use karla bean hadala tibbot full mode wenawa
 @Component
 public class SpringBean3 {
     //configiration class eka atule code eka meke genalla dnma
     //me widiyata ape spring bean ekak atule dnna gyama interbean dependency satisfied karanne ne
+    //@Component ekata priority eka wedi,eka mulin hadenawa
     //meka configuration class ekakadi karanam ekata kyanne spring full mode eka kyala
     //me wge spring bean ekak atulen beans tika context ekata wetenna kiyala tiyenam ekata kiyanne light mood eka kiyala
     @Bean

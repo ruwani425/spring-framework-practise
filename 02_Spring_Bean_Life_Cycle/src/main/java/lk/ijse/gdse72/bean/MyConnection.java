@@ -7,7 +7,7 @@ import org.springframework.context.ApplicationContextAware;
 
 // BEAN LIFE CYCLE
 
-public class MyConnection implements  DisposableBean, BeanNameAware, BeanFactoryAware, ApplicationContextAware, InitializingBean {
+public class MyConnection implements DisposableBean, BeanNameAware, BeanFactoryAware, ApplicationContextAware, InitializingBean {
     // 01. Instantiation - the state of the object creation
     public MyConnection() {
         System.out.println("MyConnection Constructor Called");
@@ -41,6 +41,9 @@ public class MyConnection implements  DisposableBean, BeanNameAware, BeanFactory
     }
 
     // 07. Disposable bean
+    //@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE) meka danmama destroy run wenne ne
+    //prototype danmama destroy ekata kalin step ekata wenakam enawa,eta passe heap ekata wetenawa object eka.destroy eka run wenne ne
+    //eta passe gc awilla e object eka aragena yanawa
     @Override
     public void destroy() throws Exception { // from DisposableBean Interface
         System.out.println("MyConnection is destroyed");

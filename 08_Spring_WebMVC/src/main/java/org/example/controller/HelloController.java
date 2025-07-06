@@ -1,32 +1,23 @@
 package org.example.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-/**
- * <b>Header</b>
- * <p>
- * Description
- * </p>
- *
- * @author Ruwani Ranthika
- * @since 2025-06-23
- */
-@RestController
+@Controller
 @RequestMapping("hello")
 public class HelloController {
     public HelloController() {
         System.out.println("HelloController constructor");
     }
 
-    @GetMapping("one")
+    @GetMapping()
     public String sayHello() {
-        return "Hello World";
+        return "index";
     }
 
-    @GetMapping("two")
-    public String sayHello2() {
-        return "Hello World2";
-    }
+//    @GetMapping()
+//    public void sayHello2() {
+//        return "Hello World2";
+//    }
 }

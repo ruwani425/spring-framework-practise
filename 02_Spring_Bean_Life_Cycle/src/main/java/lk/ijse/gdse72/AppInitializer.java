@@ -22,6 +22,7 @@ public class AppInitializer {
 //        MyConnection myConnection2 = context.getBean(MyConnection.class);
 //        System.out.println(myConnection2);
 
+        //jvm eka stop wenna mohotakata kalin spring context eka close karal danawa
 //        context.registerShutdownHook();
         context.close();
     }

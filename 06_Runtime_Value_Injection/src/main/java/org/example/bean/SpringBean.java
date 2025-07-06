@@ -5,15 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-/**
- * <b>Header</b>
- * <p>
- * Description
- * </p>
- *
- * @author Ruwani Ranthika
- * @since 2025-06-23
- */
 @Component
 public class SpringBean implements InitializingBean {
     @Value("Hello")
@@ -30,6 +21,7 @@ public class SpringBean implements InitializingBean {
 //        System.out.println("SpringBean");
 //    }
 
+    //value eka initialize WELA  constructor eka cl wenawa
     //run time value ekk inject karanna puluwan
     //ekata @value use karanawa
     //@value ayin karala balanna error eka
@@ -48,6 +40,7 @@ public class SpringBean implements InitializingBean {
     //hebei @Autowired(required = false) karot nm error eka enne ne
     //true karala balanna aye error eka enawa
     //dekatama @Autowired(required=false) dammata passe wedima parameter gana tiyena constructor eka tmai run wenne
+    //mekata kiyanawa constructor resolution algorithem kyla
 //    @Autowired(required = false)
 //    public SpringBean(@Value("3") int a, @Value("3") int b, @Value("true") boolean value) {
 //        System.out.println("SpringBean constructor called");

@@ -18,6 +18,7 @@ public class Appinitializer {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
         context.register(AppConfig.class);
         context.refresh();
+
         //system environment variables
         Map<String, String> getenv = System.getenv();
         for (String key : getenv.keySet()) {
@@ -30,6 +31,7 @@ public class Appinitializer {
             System.out.println(key + ": " + properties.getProperty(key));
         }
         System.out.println("======================================================");
+        //system eke eka property ekak balanna puluwan key eka deela value eka aran
         String property = System.getProperty("os.name");
         System.out.println(property);
         context.registerShutdownHook();

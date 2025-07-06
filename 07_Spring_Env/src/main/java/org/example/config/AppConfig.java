@@ -6,7 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @ComponentScan(basePackages = "org.example.bean")
-//meka hoyala lyanna
+//properties kiyana file eka identify karala tiyagannawa
 @PropertySource("classpath:application.properties")
 public class AppConfig {
 
