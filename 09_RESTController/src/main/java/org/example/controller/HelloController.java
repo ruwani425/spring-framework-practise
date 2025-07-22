@@ -3,7 +3,7 @@ package org.example.controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/hello")
+@RequestMapping("/hello") //servlet ekak identifier karaganna
 public class HelloController {
     @GetMapping
     public String hello() {

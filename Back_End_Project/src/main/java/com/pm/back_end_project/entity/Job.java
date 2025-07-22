@@ -9,15 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * <b>Header</b>
- * <p>
- * Description
- * </p>
- *
- * @author Ruwani Ranthika
- * @since 2025-07-07
- */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -26,9 +17,11 @@ import lombok.Setter;
 public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int id;
+    public Integer id;
     public String jobTitle;
     private String company;
     private String location;
     private String jobDescription;
+    private String jobType;
+    private String status;
 }

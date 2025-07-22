@@ -13,6 +13,7 @@ public class CustomerController {
     //CAddress - Customer Address
     @PostMapping
     //ModelAttribute eken okkoma attribute tika customer dto ekak widiyata wenas kara
+    //front end eken ena onama widiyaka (form data...,...,..) data aragena object ekaka set karano
     public String saveCustomer(@ModelAttribute CustomerDTO customerDTO) {
         System.out.println(customerDTO);
         return "saveCustomer";
@@ -27,6 +28,7 @@ public class CustomerController {
 
     //use query parameters
     @PostMapping(params = {"CID", "CName", "CAddress"})
+    //query string walin ewana ewa allaganne @RequestParam meken
     public String saveCustomerQueryParams(@RequestParam("CID") String CID, @RequestParam("CName") String CName, @RequestParam("CAddress") String CAddress) {
         System.out.println("CID: " + CID
                 + " CName: " + CName);
@@ -42,13 +44,16 @@ public class CustomerController {
     }
 
     //save JSON
+    //request eken enna ona mokakda kiyala kiyanne consumes
     @PostMapping(path = "saveWithJSON", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    //model attribute eken wena de wagemai,request body eken enne
     public String saveCustomerWithJSON(@RequestBody CustomerDTO customerDTO) {
         System.out.println(customerDTO);
         return "save";
     }
 
     //return JSON
+    //responce eke yanna ona monawada kiyala kiyanne produces
     @GetMapping(path = "getCustomer", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getCustomer() {
         CustomerDTO customerDTO = new CustomerDTO();
