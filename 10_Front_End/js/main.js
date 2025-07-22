@@ -2,6 +2,63 @@ let jobs = [];
 
 $(document).ready(function () {
     loadJobs();
+
+
+    $("#searchInput").on("input", function () {
+        const keyword = $(this).val().trim();
+        if (keyword === "") {
+            loadJobs();
+            return;
+        }
+        $.ajax({
+            url: `http://localhost:8080/api/v1/job/search/${encodeURIComponent(keyword)}`,
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                jobs = data.data; // assign the actual array
+                $("#jobsTableBody").empty();
+                $.each(data.data, function (index, job) {
+                    var status = job.status === "Active" ? "Active" : "Deactive";
+                    var row =
+                        `<tr>
+                        <td>${index + 1}</td>
+                        <td>${job.jobTitle}</td>
+                        <td>${job.company}</td>
+                        <td>${job.jobLocation || job.location}</td>
+                        <td>${job.jobType || job.type}</td>
+                        <td>
+                            <select class="form-select form-select-sm status-dropdown" data-id="${job.id}">
+                                <option value="Active"${status === "Active" ? " selected" : ""}>Active</option>
+                                <option value="Deactive"${status === "Deactive" ? " selected" : ""}>Deactive</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-warning me-1 edit-btn" data-id="${job.id}">Edit</button>
+                            <button class="btn btn-sm btn-danger delete-btn" data-id="${job.id}">Delete</button>
+                        </td>
+                     </tr>`;
+                    $("#jobsTableBody").append(row);
+                });
+            },
+            error: function (xhr, status, error) {
+                if (xhr.status === 404) {
+                    $("#jobsTableBody").html(`
+            <tr>
+                <td colspan="7" class="text-center text-danger fw-bold">No jobs found for your search</td>
+            </tr>
+        `);
+                } else {
+                    $("#jobsTableBody").html(`
+            <tr>
+                <td colspan="7" class="text-center text-danger fw-bold">An error occurred while fetching jobs</td>
+            </tr>
+        `);
+                    console.error("Search failed:", error);
+                }
+            }
+        });
+    });
+
     $(document).on("click", ".delete-btn", function () {
         const jobId = $(this).data("id");
 
@@ -24,9 +81,9 @@ $(document).ready(function () {
         const job = jobs.find(j => j.id === jobId);
         if (job) {
             $("#editJobId").val(job.id);
-            $("#editJobTitle").val(job.jobtitle);
+            $("#editJobTitle").val(job.jobTitle);
             $("#editCompanyName").val(job.company);
-            $("#editJobLocation").val(job.jobLocation);
+            $("#editJobLocation").val(job.location || job.jobLocation);
             $("#editJobType").val(job.jobType);
             $("#editJobDescription").val(job.jobDescription);
 
@@ -45,7 +102,7 @@ $(document).ready(function () {
         $.ajax({
             type: "PATCH",
             url: `http://localhost:8080/api/v1/job/status/${jobId}`,
-            data: JSON.stringify({ status: newStatus }),
+            data: JSON.stringify({status: newStatus}),
             contentType: "application/json",
             success: function (response) {
                 console.log("Status updated:", response);
@@ -58,48 +115,6 @@ $(document).ready(function () {
     });
 })
 
-$("#searchInput").on("input", function () {
-    const keyword = $(this).val().trim();
-    if (keyword === "") {
-        loadJobs();
-        return;
-    }
-    $.ajax({
-        url: `http://localhost:8080/api/v1/job/search/${encodeURIComponent(keyword)}`,
-        type: "GET",
-        dataType: "json",
-        success: function (data) {
-            jobs = data;
-            $("#jobsTableBody").empty();
-            $.each(data, function (index, job) {
-                var status = job.status === "Active" ? "Active" : "Deactive";
-                var row =
-                    `<tr>
-                        <td>${index + 1}</td>
-                        <td>${job.jobtitle || job.title}</td>
-                        <td>${job.company}</td>
-                        <td>${job.jobLocation || job.location}</td>
-                        <td>${job.jobType || job.type}</td>
-                        <td>
-                            <select class="form-select form-select-sm status-dropdown" data-id="${job.id}">
-                                <option value="Active"${status === "Active" ? " selected" : ""}>Active</option>
-                                <option value="Deactive"${status === "Deactive" ? " selected" : ""}>Deactive</option>
-                            </select>
-                        </td>
-                        <td>
-                            <button class="btn btn-sm btn-warning me-1 edit-btn" data-id="${job.id}">Edit</button>
-                            <button class="btn btn-sm btn-danger delete-btn" data-id="${job.id}">Delete</button>
-                        </td>
-                     </tr>`;
-                $("#jobsTableBody").append(row);
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log(xhr.responseText);
-        }
-    });
-});
-
 function loadJobs() {
     $.ajax({
         url: "http://localhost:8080/api/v1/job/getall",
@@ -109,19 +124,29 @@ function loadJobs() {
             jobs = data.data; //use data.data for jobs array
             $("#jobsTableBody").empty();
 
+            if (!data.data || data.data.length === 0) {
+                $("#jobsTableBody").html(`
+                    <tr>
+                        <td colspan="7" class="text-center text-secondary">No job data available</td>
+                    </tr>
+                `);
+                return;
+            }
+
             $.each(jobs, function (index, job) {
                 var status = job.status === "Active" ? "Active" : "Deactive";
                 var row =
                     `<tr>
                         <td>${index + 1}</td>
-                        <td>${job.jobtitle || job.title}</td>
+                        <td>${job.jobTitle}</td>
                         <td>${job.company}</td>
                         <td>${job.jobLocation || job.location}</td>
                         <td>${job.jobType || job.type}</td>
                         <td>
                             <select class="form-select form-select-sm status-dropdown" data-id="${job.id}">
-                                <option value="Active"${status === "Active" ? " selected" : ""}>Active</option>
-                                <option value="Deactive"${status === "Deactive" ? " selected" : ""}>Deactive</option>
+                               <option value="Active"${status === "Active" ? " selected" : ""}>Active</option>
+                               <option value="Deactive"${status === "Deactive" ? " selected" : ""}>Deactive</option>
+
                             </select>
                         </td>
                         <td>
@@ -133,20 +158,28 @@ function loadJobs() {
             })
         },
         error: function (xhr, status, error) {
-            console.log(xhr.responseText);
+            if (xhr.status === 404) {
+                $("#jobsTableBody").html(`
+            <tr>
+                <td colspan="7" class="text-center text-danger fw-bold">No jobs found for your search</td>
+            </tr>
+        `);
+            } else {
+                console.error("Search failed:", error);
+            }
         }
     })
 }
 
 $("#saveJobBtn").click(function () {
-    var jobTitle = $("#jobTitle").val();
+    var jobtitle = $("#jobTitle").val();
     var company = $("#companyName").val();
     var location = $("#jobLocation").val();
     var jobType = $("#jobType").val();
     var jobDescription = $("#jobDescription").val();
 
     var job = {
-        jobTitle: jobTitle,
+        jobTitle: jobtitle,
         company: company,
         location: location,
         jobType: jobType,

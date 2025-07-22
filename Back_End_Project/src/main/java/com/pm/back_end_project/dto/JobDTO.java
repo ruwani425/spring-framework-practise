@@ -15,23 +15,17 @@ import lombok.Setter;
 public class JobDTO {
     private Integer id;
 
-    @JsonProperty("jobtitle")
     @NotBlank(message = "job title is mandatory")
     private String jobTitle;
 
     @Pattern(regexp = "^[a-zA-Z]+$",message = "company name is mandatory")
-    @JsonProperty("company")
     private String company;
 
-    @JsonProperty("jobLocation")
     private String location;
 
-    @JsonProperty("jobType")
     private String jobType;
 
-    @JsonProperty("status")
     private String status;
 
-    @JsonProperty("jobDescription")
     private String jobDescription;
 }

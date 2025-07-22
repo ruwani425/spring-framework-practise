@@ -65,12 +65,12 @@ public class JobController {
         return ResponseEntity.ok(new APIResponse<>(200, "update job", ""));
     }
 
-    //industry eke delete mapping use wenawa adui
-//    @DeleteMapping("delete/{id}")
-//    public String deleteJob(@PathVariable("id") String jobId) {
-//        jobService.deleteJob(jobId);
-//        return "Job deleted successfully";
-//    }
+    //    industry eke delete mapping use wenawa adui
+    @DeleteMapping("delete/{id}")
+    public String deleteJob(@PathVariable("id") String jobId) {
+        jobService.deleteJob(jobId);
+        return "Job deleted successfully";
+    }
 
     //full object ekama update wenne neti nisai patch mapping ekak gatte
     @PatchMapping("status/{id}")
@@ -83,6 +83,11 @@ public class JobController {
     @GetMapping("search/{keyword}")
     public ResponseEntity<APIResponse<List<JobDTO>>> searchJob(@PathVariable("keyword") String keyword) {
         List<JobDTO> jobByJobTitle = jobService.getJobByJobTitle(keyword);
+
+        if (jobByJobTitle == null || jobByJobTitle.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new APIResponse<>(404, "No job found for keyword: " + keyword, null));
+        }
         return ResponseEntity.ok(new APIResponse<>(200, "job searched successfully", jobByJobTitle));
     }
 }
